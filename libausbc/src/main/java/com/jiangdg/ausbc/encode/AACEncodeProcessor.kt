@@ -362,7 +362,7 @@ class AACEncodeProcessor : AbstractProcessor() {
         private const val CHANNEL_OUT_CONFIG = AudioFormat.CHANNEL_OUT_MONO
         private const val AUDIO_FORMAT_16BIT = AudioFormat.ENCODING_PCM_16BIT
         private const val AUDIO_TRACK_MODE = AudioTrack.MODE_STREAM
-        private const val AUDIO_RECORD_SOURCE = MediaRecorder.AudioSource.MIC
+        private const val AUDIO_RECORD_SOURCE = MediaRecorder.AudioSource.CAMCORDER
         private const val CODEC_AAC_PROFILE = MediaCodecInfo.CodecProfileLevel.AACObjectLC
         private const val AUDIO_FORMAT_BITS = 16
         private const val DEGREE_RECORD_MP3 = 7
