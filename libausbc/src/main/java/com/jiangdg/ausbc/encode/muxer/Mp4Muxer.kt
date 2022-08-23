@@ -218,23 +218,32 @@ class Mp4Muxer(
      */
     @Synchronized
     fun release() {
+        internalRelease()
+        insertDCIM(mContext, path, true)
+        mMediaMuxer = null
+        mAudioTrackerIndex = -1
+        mVideoTrackerIndex = -1
+        mAudioPts = 0L
+        mVideoPts = 0L
+    }
+
+    private fun internalRelease(isRetry:Boolean= false){
         try {
             mMediaMuxer?.stop()
             mMediaMuxer?.release()
-            insertDCIM(mContext, path, true)
         } catch (e: Exception) {
-            mMainHandler.post {
-                mCaptureCallBack?.onError(e.localizedMessage)
+            if (isRetry) {
+                mMainHandler.post {
+                    mCaptureCallBack?.onError(e.localizedMessage)
+                }
+                Logger.e(TAG, "release media muxer failed, err = ${e.localizedMessage}", e)
+            } else {
+                internalRelease(true)
             }
-            Logger.e(TAG, "release media muxer failed, err = ${e.localizedMessage}", e)
-        } finally {
-            mMediaMuxer = null
-            mAudioTrackerIndex = -1
-            mVideoTrackerIndex = -1
-            mAudioPts = 0L
-            mVideoPts = 0L
         }
+
     }
+
 
     fun getSavePath() = path
 
