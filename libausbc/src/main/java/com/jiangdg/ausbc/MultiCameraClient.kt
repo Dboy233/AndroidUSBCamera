@@ -821,6 +821,11 @@ class MultiCameraClient(ctx: Context, callback: IDeviceConnectCallBack?) {
         fun isRecordVideo() = mVideoProcess?.isEncoding() == true
 
         /**
+         * 获取视频解码器对象是否在工作状态
+         */
+        fun getVideoProcessMsgState() = mVideoProcess?.getMsgState() == true
+
+        /**
          * Add encode data call back
          *
          * @param callBack camera encoded data call back, see [IEncodeDataCallBack]

@@ -48,6 +48,11 @@ abstract class AbstractProcessor(private val gLESRender: Boolean = false) {
         AtomicBoolean(false)
     }
 
+
+    protected val mMsgState: AtomicBoolean by lazy {
+        AtomicBoolean(false)
+    }
+
     /**
      * Start encode
      *
@@ -59,10 +64,18 @@ abstract class AbstractProcessor(private val gLESRender: Boolean = false) {
         mEncodeHandler = Handler(mEncodeThread!!.looper) { msg ->
             when (msg.what) {
                 MSG_START -> {
+                    mMsgState.set(true)
+                    Logger.i("Dboy","开始解码"+this)
                     handleStartEncode()
                 }
                 MSG_STOP -> {
                     handleStopEncode()
+                    mEncodeThread?.quitSafely()
+                    mEncodeThread = null
+                    mEncodeHandler = null
+                    mEncodeDataCb = null
+                    mMsgState.set(false)
+                    Logger.i("Dboy","结束解码"+this)
                 }
             }
             true
@@ -74,11 +87,8 @@ abstract class AbstractProcessor(private val gLESRender: Boolean = false) {
      * Stop encode
      */
     fun stopEncode() {
+        mEncodeState.set(false)
         mEncodeHandler?.obtainMessage(MSG_STOP)?.sendToTarget()
-        mEncodeThread?.quitSafely()
-        mEncodeThread = null
-        mEncodeHandler = null
-        mEncodeDataCb = null
     }
 
     /**
@@ -121,6 +131,11 @@ abstract class AbstractProcessor(private val gLESRender: Boolean = false) {
      * Is encoding
      */
     fun isEncoding() = mEncodeState.get()
+
+    /**
+     * 获取真实状态
+     */
+    fun getMsgState() = mMsgState.get()
 
     /**
      * Get thread name

@@ -29,7 +29,7 @@
             android:name="com.jiangdg.demo.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashActivityStyle"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
