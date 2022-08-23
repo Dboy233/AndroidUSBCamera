@@ -91,7 +91,6 @@ class AACEncodeProcessor : AbstractProcessor() {
 
     override fun handleStopEncode() {
         try {
-            mEncodeState.set(false)
             mMediaCodec?.stop()
             mMediaCodec?.release()
             if (Utils.debugCamera) {
@@ -103,6 +102,7 @@ class AACEncodeProcessor : AbstractProcessor() {
             releaseAudioRecord()
             mRawDataQueue.clear()
             mMediaCodec = null
+            mEncodeState.set(false)
         }
     }
 

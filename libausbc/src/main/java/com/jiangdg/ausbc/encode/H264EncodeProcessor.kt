@@ -68,7 +68,6 @@ class H264EncodeProcessor(
 
     override fun handleStopEncode() {
         try {
-            mEncodeState.set(false)
             mMediaCodec?.stop()
             mMediaCodec?.release()
             if (Utils.debugCamera) {
@@ -79,6 +78,7 @@ class H264EncodeProcessor(
         } finally {
             mRawDataQueue.clear()
             mMediaCodec = null
+            mEncodeState.set(false)
         }
     }
 

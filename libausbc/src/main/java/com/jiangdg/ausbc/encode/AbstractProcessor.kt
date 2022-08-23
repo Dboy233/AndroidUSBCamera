@@ -63,7 +63,6 @@ abstract class AbstractProcessor(private val gLESRender: Boolean = false) {
                 }
                 MSG_STOP -> {
                     handleStopEncode()
-                    mEncodeState.set(false)
                 }
             }
             true
